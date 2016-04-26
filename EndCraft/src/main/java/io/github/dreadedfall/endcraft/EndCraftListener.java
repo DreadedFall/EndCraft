@@ -2,6 +2,9 @@ package io.github.dreadedfall.endcraft;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -11,47 +14,43 @@ import org.bukkit.inventory.ItemStack;
 public class EndCraftListener implements Listener
 {
 	private final EndCraft main;
+	private BlockFace[] portals = {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
 	public EndCraftListener(EndCraft e)
 	{
 		this.main = e;
+	}
+
+	private void checkFace(int i, Block b)
+	{
+		Block currentFace = b.getRelative(portals[i]);
+		if(currentFace.getType().equals(Material.ENDER_PORTAL))
+		{
+			currentFace.breakNaturally();
+		}
 	}
 	
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
 		String tool = main.getTool();
-		if(event.getAction() == Action.LEFT_CLICK_BLOCK)
+		Player player = event.getPlayer();
+		if(player.hasPermission("endcraft.break"))
 		{
-			if(event.getClickedBlock().getType().equals(Material.ENDER_PORTAL_FRAME))
+			if(event.getItem().getType().toString().equals(tool))
 			{
-				if(event.getPlayer().getGameMode().equals(GameMode.SURVIVAL))
+				if(event.getAction() == Action.LEFT_CLICK_BLOCK)
 				{
-					if(event.getItem().getType().toString().equals(tool))
+					if(event.getClickedBlock().getType().equals(Material.ENDER_PORTAL_FRAME))
 					{
-						if(event.getPlayer().hasPermission("endcraft.break"))
+						event.setCancelled(true);
+						event.getClickedBlock().setType(Material.AIR);
+						for(int i = 0; i < 4; i++)
 						{
-							event.setCancelled(true);
-							event.getClickedBlock().setType(Material.AIR);
-							event.getClickedBlock().getWorld().dropItemNaturally(event.getClickedBlock().getLocation(), new ItemStack(Material.ENDER_PORTAL_FRAME));
+							checkFace(i, event.getClickedBlock());
 						}
-						else
-						{
-							return;
-						}
-					}
-					else
-					{
-						return;
+						event.getClickedBlock().getWorld().dropItemNaturally(event.getClickedBlock().getLocation(), new ItemStack(Material.ENDER_PORTAL_FRAME));
 					}
 				}
-				else
-				{
-					return;
-				}
-			}
-			else
-			{
-				return;
 			}
 		}
 	}
