@@ -1,5 +1,6 @@
 package io.github.dreadedfall.endcraft;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -31,7 +32,7 @@ public class EndCraftListener implements Listener
 			}
 		}
 	}
-	
+
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
@@ -45,13 +46,16 @@ public class EndCraftListener implements Listener
 				{
 					if(event.getClickedBlock().getType().equals(Material.ENDER_PORTAL_FRAME))
 					{
-						event.setCancelled(true);
-						event.getClickedBlock().setType(Material.AIR);
-						for(int i = 0; i < 4; i++)
+						if(player.getGameMode().equals(GameMode.SURVIVAL))
 						{
-							checkFace(i, event.getClickedBlock());
+							event.setCancelled(true);
+							event.getClickedBlock().setType(Material.AIR);
+							for(int i = 0; i < 4; i++)
+							{
+								checkFace(i, event.getClickedBlock());
+							}
+							event.getClickedBlock().getWorld().dropItemNaturally(event.getClickedBlock().getLocation(), new ItemStack(Material.ENDER_PORTAL_FRAME));
 						}
-						event.getClickedBlock().getWorld().dropItemNaturally(event.getClickedBlock().getLocation(), new ItemStack(Material.ENDER_PORTAL_FRAME));
 					}
 				}
 			}
