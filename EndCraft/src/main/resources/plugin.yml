@@ -1,0 +1,9 @@
+name: EndCraft
+author: DreadedFall
+version: 1.1.0
+description: Allows crafting of Nether stars, end stone, ender pearls, and end portal frames. Also allows the breaking of end portal frames.
+main: io.github.dreadedfall.endcraft.EndCraft
+permissions:
+    endcraft.break:
+        description: Allows the user to break portal frames. Suggested for Admins only
+        default: op

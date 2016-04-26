@@ -1,0 +1,9 @@
+#Crafting recipes
+End Portal Frame: true
+Ender Pearl: true
+End Stone: true
+Nether Star: true
+
+#Use names with underscores not spaces
+#Tool to break ender portal frames
+tool: diamond_pickaxe
