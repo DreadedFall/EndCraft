@@ -26,6 +26,10 @@ public class EndCraftListener implements Listener
 		if(currentFace.getType().equals(Material.ENDER_PORTAL))
 		{
 			currentFace.breakNaturally();
+			for(int x = 0; x < 4; x++)
+			{
+				checkFace(x, currentFace);
+			}
 		}
 	}
 	
