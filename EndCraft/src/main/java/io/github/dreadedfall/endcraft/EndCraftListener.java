@@ -1,6 +1,5 @@
 package io.github.dreadedfall.endcraft;
 
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
