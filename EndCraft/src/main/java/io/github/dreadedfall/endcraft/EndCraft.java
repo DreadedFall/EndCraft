@@ -15,6 +15,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 /**
  * @author DreadedFall
  *
+ * This plugin adds crafting recipes for end portal frames, end stone, ender pearls, and nether stars
+ * To be added:
+ * Factions support
  */
 public class EndCraft extends JavaPlugin
 {
